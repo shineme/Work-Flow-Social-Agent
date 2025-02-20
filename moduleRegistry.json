@@ -1,0 +1,322 @@
+{
+    "version": "1.0",
+    "modules": {
+        "start": {
+            "name": "开始",
+            "type": "start",
+            "category": "基础模块",
+            "description": "工作流的起始节点",
+            "outputs": [
+                {
+                    "id": "start-output",
+                    "name": "输出",
+                    "type": "any",
+                    "description": "开始节点输出",
+                    "multiple": true
+                }
+            ]
+        },
+        "end": {
+            "name": "结束",
+            "type": "end",
+            "category": "基础模块",
+            "description": "工作流的结束节点",
+            "inputs": [
+                {
+                    "id": "end-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "结束节点输入",
+                    "required": true
+                }
+            ]
+        },
+        "if": {
+            "name": "条件判断",
+            "type": "control",
+            "category": "控制流",
+            "description": "根据条件选择执行路径",
+            "properties": {
+                "condition": {
+                    "type": "string",
+                    "required": true,
+                    "description": "条件表达式"
+                }
+            },
+            "inputs": [
+                {
+                    "id": "if-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "条件判断输入",
+                    "required": true
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "true-output",
+                    "name": "为真",
+                    "type": "any",
+                    "description": "条件为真时的输出"
+                },
+                {
+                    "id": "false-output",
+                    "name": "为假",
+                    "type": "any",
+                    "description": "条件为假时的输出"
+                }
+            ]
+        },
+        "for": {
+            "name": "循环",
+            "type": "control",
+            "category": "控制流",
+            "description": "循环执行指定次数或遍历集合",
+            "properties": {
+                "type": {
+                    "type": "enum",
+                    "required": true,
+                    "description": "循环类型",
+                    "options": [
+                        {"value": "count", "label": "次数循环"},
+                        {"value": "collection", "label": "集合遍历"}
+                    ]
+                },
+                "count": {
+                    "type": "number",
+                    "required": false,
+                    "description": "循环次数",
+                    "default": 1,
+                    "min": 1,
+                    "max": 1000
+                }
+            },
+            "inputs": [
+                {
+                    "id": "for-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "循环输入数据",
+                    "required": true
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "iteration-output",
+                    "name": "循环体",
+                    "type": "any",
+                    "description": "循环体输出"
+                },
+                {
+                    "id": "complete-output",
+                    "name": "循环完成",
+                    "type": "any",
+                    "description": "循环完成后的输出"
+                }
+            ]
+        },
+        "merge": {
+            "name": "合并",
+            "type": "control",
+            "category": "控制流",
+            "description": "合并多个分支的执行路径",
+            "inputs": [
+                {
+                    "id": "input-1",
+                    "name": "输入1",
+                    "type": "any",
+                    "description": "第一个输入",
+                    "required": true,
+                    "multiple": true
+                },
+                {
+                    "id": "input-2",
+                    "name": "输入2",
+                    "type": "any",
+                    "description": "第二个输入",
+                    "required": false,
+                    "multiple": true
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "merged-output",
+                    "name": "合并输出",
+                    "type": "any",
+                    "description": "合并后的输出"
+                }
+            ]
+        },
+        "switch": {
+            "name": "多路分支",
+            "type": "control",
+            "category": "控制流",
+            "description": "根据条件选择多个执行路径",
+            "properties": {
+                "cases": {
+                    "type": "array",
+                    "required": true,
+                    "description": "分支条件列表",
+                    "default": []
+                }
+            },
+            "inputs": [
+                {
+                    "id": "switch-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "分支判断输入",
+                    "required": true
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "case-1",
+                    "name": "分支1",
+                    "type": "any",
+                    "description": "条件1成立时的输出"
+                },
+                {
+                    "id": "case-2",
+                    "name": "分支2",
+                    "type": "any",
+                    "description": "条件2成立时的输出"
+                },
+                {
+                    "id": "default",
+                    "name": "默认",
+                    "type": "any",
+                    "description": "默认分支输出"
+                }
+            ]
+        },
+        "delay": {
+            "name": "延时",
+            "type": "control",
+            "category": "控制流",
+            "description": "延时执行后续节点",
+            "properties": {
+                "duration": {
+                    "type": "number",
+                    "required": true,
+                    "description": "延时时间(毫秒)",
+                    "default": 1000,
+                    "min": 0,
+                    "max": 3600000
+                }
+            },
+            "inputs": [
+                {
+                    "id": "delay-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "延时输入",
+                    "required": true
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "delay-output",
+                    "name": "输出",
+                    "type": "any",
+                    "description": "延时后的输出"
+                }
+            ]
+        },
+        "textGeneration": {
+            "name": "文本生成",
+            "category": "AI生成",
+            "description": "使用AI生成文本内容",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "required": true,
+                    "description": "提示词"
+                },
+                "maxTokens": {
+                    "type": "number",
+                    "required": false,
+                    "description": "最大生成长度",
+                    "default": 1000,
+                    "min": 100,
+                    "max": 4000
+                },
+                "temperature": {
+                    "type": "number",
+                    "required": false,
+                    "description": "创造性程度",
+                    "default": 0.7,
+                    "min": 0,
+                    "max": 1
+                }
+            },
+            "inputs": [
+                {
+                    "id": "context-input",
+                    "name": "上下文",
+                    "type": "string",
+                    "description": "生成的上下文信息",
+                    "required": false
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "text-output",
+                    "name": "生成文本",
+                    "type": "string",
+                    "description": "生成的文本内容"
+                }
+            ]
+        },
+        "imageGeneration": {
+            "name": "图片生成",
+            "category": "AI生成",
+            "description": "使用AI生成图片",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "required": true,
+                    "description": "图片描述"
+                },
+                "style": {
+                    "type": "enum",
+                    "required": true,
+                    "description": "图片风格",
+                    "options": [
+                        {"value": "realistic", "label": "写实风格"},
+                        {"value": "cartoon", "label": "卡通风格"},
+                        {"value": "oil", "label": "油画风格"}
+                    ]
+                },
+                "size": {
+                    "type": "enum",
+                    "required": false,
+                    "description": "图片尺寸",
+                    "default": "1024x1024",
+                    "options": [
+                        {"value": "256x256", "label": "小图"},
+                        {"value": "512x512", "label": "中图"},
+                        {"value": "1024x1024", "label": "大图"}
+                    ]
+                }
+            },
+            "inputs": [
+                {
+                    "id": "reference-input",
+                    "name": "参考图片",
+                    "type": "image",
+                    "description": "参考图片输入",
+                    "required": false
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "image-output",
+                    "name": "生成图片",
+                    "type": "image",
+                    "description": "生成的图片"
+                }
+            ]
+        }
+    }
+} 

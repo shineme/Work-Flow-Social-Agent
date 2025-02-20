@@ -1,0 +1,17 @@
+:root {
+  --bg-primary: #1e1e2e;
+  --bg-secondary: #252535;
+  --bg-tertiary: #313244;
+  --text-primary: #cdd6f4;
+  --text-secondary: #a6adc8;
+  --accent-primary: #89b4fa;
+  --accent-secondary: #b4befe;
+  --border-color: #45475a;
+  --node-bg: #313244;
+  --node-border: #89b4fa;
+  --node-selected: #cba6f7;
+  --grid-color: rgba(69, 71, 90, 0.5);
+  --error-color: #f38ba8;
+  --success-color: #a6e3a1;
+  --warning-color: #fab387;
+} 

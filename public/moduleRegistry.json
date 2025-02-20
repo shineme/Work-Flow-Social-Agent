@@ -1,0 +1,536 @@
+{
+    "version": "1.0",
+    "categories": [
+        {
+            "id": "basic",
+            "name": "基础模块",
+            "icon": "Connection",
+            "expanded": true
+        },
+        {
+            "id": "control",
+            "name": "控制流",
+            "icon": "Switch",
+            "expanded": true
+        },
+        {
+            "id": "data",
+            "name": "数据处理",
+            "icon": "DataLine",
+            "expanded": false
+        },
+        {
+            "id": "ai",
+            "name": "AI处理",
+            "icon": "Cpu",
+            "expanded": false
+        },
+        {
+            "id": "content",
+            "name": "内容生成",
+            "icon": "Edit",
+            "expanded": false
+        },
+        {
+            "id": "tools",
+            "name": "工具模块",
+            "icon": "Tools",
+            "expanded": false
+        }
+    ],
+    "modules": {
+        "start": {
+            "id": "start",
+            "categoryId": "basic",
+            "name": "开始",
+            "type": "start",
+            "description": "工作流的起始节点",
+            "outputs": [
+                {
+                    "id": "start-output",
+                    "name": "输出",
+                    "type": "any",
+                    "description": "开始节点输出",
+                    "multiple": true,
+                    "variable": "startOutput"
+                }
+            ]
+        },
+        "end": {
+            "id": "end",
+            "categoryId": "basic",
+            "name": "结束",
+            "type": "end",
+            "description": "工作流的结束节点",
+            "inputs": [
+                {
+                    "id": "end-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "结束节点输入",
+                    "required": true,
+                    "multiple": true,
+                    "variable": "endInput"
+                }
+            ]
+        },
+        "if": {
+            "id": "if",
+            "categoryId": "control",
+            "name": "条件判断",
+            "type": "control",
+            "description": "根据条件选择执行路径",
+            "properties": {
+                "condition": {
+                    "type": "string",
+                    "required": true,
+                    "description": "条件表达式",
+                    "placeholder": "${变量名} == 'value'"
+                }
+            },
+            "inputs": [
+                {
+                    "id": "if-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "条件判断输入",
+                    "required": true,
+                    "variable": "ifInput"
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "true-output",
+                    "name": "为真",
+                    "type": "any",
+                    "description": "条件为真时的输出",
+                    "variable": "ifTrueResult"
+                },
+                {
+                    "id": "false-output",
+                    "name": "为假",
+                    "type": "any",
+                    "description": "条件为假时的输出",
+                    "variable": "ifFalseResult"
+                }
+            ]
+        },
+        "for": {
+            "id": "for",
+            "categoryId": "control",
+            "name": "循环",
+            "type": "control",
+            "description": "循环执行指定次数或遍历集合",
+            "properties": {
+                "type": {
+                    "type": "enum",
+                    "required": true,
+                    "description": "循环类型",
+                    "options": [
+                        {"value": "count", "label": "次数循环"},
+                        {"value": "collection", "label": "集合遍历"}
+                    ]
+                },
+                "count": {
+                    "type": "number",
+                    "required": false,
+                    "description": "循环次数",
+                    "default": 1,
+                    "min": 1,
+                    "max": 1000
+                },
+                "iteratorVariable": {
+                    "type": "string",
+                    "required": true,
+                    "description": "迭代变量名",
+                    "default": "item"
+                }
+            },
+            "inputs": [
+                {
+                    "id": "for-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "循环输入数据",
+                    "required": true
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "iteration-output",
+                    "name": "循环体",
+                    "type": "any",
+                    "description": "循环体输出",
+                    "variable": "loopItem"
+                },
+                {
+                    "id": "complete-output",
+                    "name": "循环完成",
+                    "type": "any",
+                    "description": "循环完成后的输出",
+                    "variable": "loopResult"
+                }
+            ]
+        },
+        "merge": {
+            "id": "merge",
+            "categoryId": "control",
+            "name": "合并",
+            "type": "control",
+            "description": "合并多个分支的执行路径",
+            "inputs": [
+                {
+                    "id": "input-1",
+                    "name": "输入1",
+                    "type": "any",
+                    "description": "第一个输入",
+                    "required": true,
+                    "multiple": true
+                },
+                {
+                    "id": "input-2",
+                    "name": "输入2",
+                    "type": "any",
+                    "description": "第二个输入",
+                    "required": false,
+                    "multiple": true
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "merged-output",
+                    "name": "合并输出",
+                    "type": "any",
+                    "description": "合并后的输出",
+                    "variable": "mergedResult"
+                }
+            ]
+        },
+        "switch": {
+            "id": "switch",
+            "categoryId": "control",
+            "name": "多路分支",
+            "type": "control",
+            "description": "根据条件选择多个执行路径",
+            "properties": {
+                "cases": {
+                    "type": "array",
+                    "required": true,
+                    "description": "分支条件列表",
+                    "default": []
+                }
+            },
+            "inputs": [
+                {
+                    "id": "switch-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "分支判断输入",
+                    "required": true
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "case-1",
+                    "name": "分支1",
+                    "type": "any",
+                    "description": "条件1成立时的输出",
+                    "variable": "switchCase1"
+                },
+                {
+                    "id": "case-2",
+                    "name": "分支2",
+                    "type": "any",
+                    "description": "条件2成立时的输出",
+                    "variable": "switchCase2"
+                },
+                {
+                    "id": "default",
+                    "name": "默认",
+                    "type": "any",
+                    "description": "默认分支输出",
+                    "variable": "switchDefault"
+                }
+            ]
+        },
+        "delay": {
+            "id": "delay",
+            "categoryId": "control",
+            "name": "延时",
+            "type": "control",
+            "description": "延时执行后续节点",
+            "properties": {
+                "duration": {
+                    "type": "number",
+                    "required": true,
+                    "description": "延时时间(毫秒)",
+                    "default": 1000,
+                    "min": 0,
+                    "max": 3600000
+                }
+            },
+            "inputs": [
+                {
+                    "id": "delay-input",
+                    "name": "输入",
+                    "type": "any",
+                    "description": "延时输入",
+                    "required": true
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "delay-output",
+                    "name": "输出",
+                    "type": "any",
+                    "description": "延时后的输出",
+                    "variable": "delayedResult"
+                }
+            ]
+        },
+        "webCapture": {
+            "id": "webCapture",
+            "categoryId": "data",
+            "name": "网页截图",
+            "type": "function",
+            "description": "从网页上截取指定区域的图片",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "required": true,
+                    "description": "网页URL"
+                },
+                "xpath": {
+                    "type": "string",
+                    "required": false,
+                    "description": "元素XPath",
+                    "default": ""
+                },
+                "waitTime": {
+                    "type": "number",
+                    "required": false,
+                    "description": "等待时间(ms)",
+                    "default": 3000,
+                    "min": 0,
+                    "max": 30000,
+                    "step": 100
+                },
+                "savePath": {
+                    "type": "string",
+                    "required": true,
+                    "description": "保存路径",
+                    "default": "captures/"
+                }
+            },
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "image",
+                    "name": "截图结果",
+                    "type": "image",
+                    "description": "截取的图片路径",
+                    "variable": "capturedImage"
+                }
+            ]
+        },
+        "imageAI": {
+            "id": "imageAI",
+            "categoryId": "ai",
+            "name": "AI图片分析",
+            "type": "function",
+            "description": "使用AI分析图片内容并生成文本描述",
+            "properties": {
+                "api": {
+                    "type": "api",
+                    "required": true,
+                    "description": "AI服务配置",
+                    "default": {
+                        "url": "",
+                        "key": "",
+                        "method": "POST"
+                    }
+                },
+                "language": {
+                    "type": "enum",
+                    "required": false,
+                    "description": "输出语言",
+                    "default": "zh",
+                    "options": [
+                        {"value": "zh", "label": "中文"},
+                        {"value": "en", "label": "英文"}
+                    ]
+                },
+                "maxTokens": {
+                    "type": "number",
+                    "required": false,
+                    "description": "最大生成长度",
+                    "default": 1000,
+                    "min": 100,
+                    "max": 4000,
+                    "step": 100
+                }
+            },
+            "inputs": [
+                {
+                    "id": "image",
+                    "name": "输入图片",
+                    "type": "image",
+                    "description": "要分析的图片路径"
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "text",
+                    "name": "分析结果",
+                    "type": "text",
+                    "description": "生成的文本描述",
+                    "variable": "imageAnalysis"
+                }
+            ]
+        },
+        "textEditor": {
+            "id": "textEditor",
+            "categoryId": "content",
+            "name": "文本编辑",
+            "type": "function",
+            "description": "编辑和优化文本内容",
+            "properties": {
+                "template": {
+                    "type": "string",
+                    "required": false,
+                    "description": "文本模板",
+                    "default": "",
+                    "placeholder": "可使用 ${变量名} 引用其他节点的输出"
+                },
+                "maxLength": {
+                    "type": "number",
+                    "required": false,
+                    "description": "最大长度",
+                    "default": 2000,
+                    "min": 100,
+                    "max": 5000
+                }
+            },
+            "inputs": [
+                {
+                    "id": "text",
+                    "name": "输入文本",
+                    "type": "text",
+                    "description": "要处理的文本"
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "text",
+                    "name": "处理结果",
+                    "type": "text",
+                    "description": "处理后的文本",
+                    "variable": "editedText"
+                }
+            ]
+        },
+        "textGeneration": {
+            "id": "textGeneration",
+            "categoryId": "content",
+            "name": "文本生成",
+            "type": "function",
+            "description": "使用AI生成文本内容",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "required": true,
+                    "description": "提示词",
+                    "placeholder": "可使用 ${变量名} 引用其他节点的输出"
+                },
+                "maxTokens": {
+                    "type": "number",
+                    "required": false,
+                    "description": "最大生成长度",
+                    "default": 1000,
+                    "min": 100,
+                    "max": 4000
+                },
+                "temperature": {
+                    "type": "number",
+                    "required": false,
+                    "description": "创造性程度",
+                    "default": 0.7,
+                    "min": 0,
+                    "max": 1
+                }
+            },
+            "inputs": [
+                {
+                    "id": "context-input",
+                    "name": "上下文",
+                    "type": "string",
+                    "description": "生成的上下文信息",
+                    "required": false
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "text-output",
+                    "name": "生成文本",
+                    "type": "string",
+                    "description": "生成的文本内容",
+                    "variable": "generatedText"
+                }
+            ]
+        },
+        "imageGeneration": {
+            "id": "imageGeneration",
+            "categoryId": "content",
+            "name": "图片生成",
+            "type": "function",
+            "description": "使用AI生成图片",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "required": true,
+                    "description": "图片描述",
+                    "placeholder": "可使用 ${变量名} 引用其他节点的输出"
+                },
+                "style": {
+                    "type": "enum",
+                    "required": true,
+                    "description": "图片风格",
+                    "options": [
+                        {"value": "realistic", "label": "写实风格"},
+                        {"value": "cartoon", "label": "卡通风格"},
+                        {"value": "oil", "label": "油画风格"}
+                    ]
+                },
+                "size": {
+                    "type": "enum",
+                    "required": false,
+                    "description": "图片尺寸",
+                    "default": "1024x1024",
+                    "options": [
+                        {"value": "256x256", "label": "小图"},
+                        {"value": "512x512", "label": "中图"},
+                        {"value": "1024x1024", "label": "大图"}
+                    ]
+                }
+            },
+            "inputs": [
+                {
+                    "id": "reference-input",
+                    "name": "参考图片",
+                    "type": "image",
+                    "description": "参考图片输入",
+                    "required": false
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "image-output",
+                    "name": "生成图片",
+                    "type": "image",
+                    "description": "生成的图片",
+                    "variable": "generatedImage"
+                }
+            ]
+        }
+    }
+} 

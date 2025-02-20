@@ -1,0 +1,126 @@
+.workflow-designer {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+}
+
+.module-panel {
+  height: 100%;
+  min-width: 220px;
+  max-width: 600px;
+  border-right: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  overflow: hidden;
+  position: relative;
+}
+
+.designer-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 400px;
+  overflow: hidden;
+}
+
+.toolbar {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.workflow-canvas {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-primary);
+  position: relative;
+}
+
+.properties-panel {
+  width: min(320px, 30%);
+  min-width: 260px;
+  max-width: 400px;
+  border-left: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.properties-panel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: ew-resize;
+  background-color: var(--border-color);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.properties-panel:hover::before {
+  opacity: 1;
+}
+
+/* 移动端适配 */
+@media (max-width: 1024px) {
+  .module-panel {
+    min-width: 220px;
+    width: 280px; /* 默认宽度 */
+  }
+}
+
+@media (max-width: 768px) {
+  .workflow-designer {
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .module-panel {
+    width: 100%;
+    max-width: none;
+    height: 300px;
+    min-height: 200px;
+    max-height: 50vh;
+  }
+  
+  .designer-container {
+    min-width: 0;
+    flex: 1;
+    height: 0; /* 让flex自动计算高度 */
+  }
+}
+
+:root {
+  --bg-primary: #1e1e2e;
+  --bg-secondary: #252535;
+  --bg-tertiary: #313244;
+  --text-primary: #cdd6f4;
+  --text-secondary: #a6adc8;
+  --accent-primary: #89b4fa;
+  --accent-secondary: #b4befe;
+  --border-color: #45475a;
+  --node-bg: #313244;
+  --node-border: #89b4fa;
+  --node-selected: #cba6f7;
+  --grid-color: rgba(69, 71, 90, 0.5);
+  --error-color: #f38ba8;
+  --success-color: #a6e3a1;
+}
+
+/* 添加边线选中样式 */
+.vue-flow__edge.selected {
+  stroke: var(--node-selected);
+  stroke-width: 3;
+}
+
+.vue-flow__edge:hover {
+  stroke-width: 3;
+  cursor: pointer;
+}
